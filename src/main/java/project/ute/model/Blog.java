@@ -6,79 +6,93 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Blog")
 public class Blog implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id")
 	private String id;
-	
-	@Column(name="name")
-	private String name;
-	
-	@Column(name="title")
-	private String title;
-	
-	@Column(name="content")
+
 	private String content;
-	
-	@Column(name="blog_type")
-	private String blogType;
-	
+
 	@Column(name="create_at")
-	private String createAt;
-	
-	@Column(name="create_by")
-	private String createBy;
-	
+	private Timestamp createAt;
+
+	private String name;
+
+	private String title;
+
+	//bi-directional many-to-one association to BlogType
+	@ManyToOne
+	@JoinColumn(name="blog_type")
+	private BlogType blogTypeBean;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="create_by")
+	private User user;
 
 	public Blog() {
-		
 	}
-	
+
 	public String getId() {
-		return id;
+		return this.id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+
 	public String getContent() {
-		return content;
+		return this.content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getBlogType() {
-		return blogType;
+
+	public Timestamp getCreateAt() {
+		return this.createAt;
 	}
-	public void setBlogType(String blogType) {
-		this.blogType = blogType;
-	}
-	public String getCreateAt() {
-		return createAt;
-	}
-	public void setCreateAt(String createAt) {
+
+	public void setCreateAt(Timestamp createAt) {
 		this.createAt = createAt;
 	}
-	public String getCreateBy() {
-		return createBy;
+
+	public String getName() {
+		return this.name;
 	}
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public BlogType getBlogTypeBean() {
+		return this.blogTypeBean;
+	}
+
+	public void setBlogTypeBean(BlogType blogTypeBean) {
+		this.blogTypeBean = blogTypeBean;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

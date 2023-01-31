@@ -5,11 +5,10 @@ import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.*;
 
 @Entity
-@Table(name="Image")
-public class Image implements Serializable {
+@Table(name="Slide")
+public class Slide implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -19,11 +18,7 @@ public class Image implements Serializable {
 
 	private String link;
 
-	//bi-directional many-to-one association to Product
-	@ManyToOne
-	private Product product;
-
-	public Image() {
+	public Slide() {
 	}
 
 	public String getId() {
@@ -48,14 +43,6 @@ public class Image implements Serializable {
 
 	public void setLink(String link) {
 		this.link = link;
-	}
-
-	public Product getProduct() {
-		return this.product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
 	}
 
 }

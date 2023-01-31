@@ -1,47 +1,79 @@
 package project.ute.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Ward")
-public class Ward implements Serializable{
+public class Ward implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id")
-	private String id;
-	
-	@Column(name="name")
-	private String name;
-	
-	@Column(name="district_code")
-	private String districtCode;
-	
-	public Ward() {
 
+	@Id
+	private String id;
+
+	private String name;
+
+	//bi-directional many-to-one association to Address
+	@OneToMany(mappedBy="ward")
+	private List<Address> addresses;
+
+	//bi-directional many-to-one association to District
+	@ManyToOne
+	@JoinColumn(name="district_code")
+	private District district;
+
+	public Ward() {
 	}
-	
+
 	public String getId() {
-		return id;
+		return this.id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getName() {
-		return name;
+		return this.name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDistrictCode() {
-		return districtCode;
+
+	public List<Address> getAddresses() {
+		return this.addresses;
 	}
-	public void setDistrictCode(String districtCode) {
-		this.districtCode = districtCode;
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
+
+	public Address addAddress(Address address) {
+		getAddresses().add(address);
+		address.setWard(this);
+
+		return address;
+	}
+
+	public Address removeAddress(Address address) {
+		getAddresses().remove(address);
+		address.setWard(null);
+
+		return address;
+	}
+
+	public District getDistrict() {
+		return this.district;
+	}
+
+	public void setDistrict(District district) {
+		this.district = district;
+	}
+
 }

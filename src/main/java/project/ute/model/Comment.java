@@ -6,51 +6,62 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Comment")
-public class Comment implements Serializable{
+public class Comment implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id")
-	private String id;
-	
-	@Column(name="created_by")
-	private String createdBy;
-	
-	@Column(name="rating_id")
-	private String ratingId;
-	
-	@Column(name="created_at")
-	private String createdAt;
-	
-	public Comment() {
 
+	@Id
+	private String id;
+
+	@Column(name="create_at")
+	private Timestamp createAt;
+
+	//bi-directional many-to-one association to Customer
+	@ManyToOne
+	@JoinColumn(name="create_by")
+	private Customer customer;
+
+	//bi-directional many-to-one association to Rating
+	@ManyToOne
+	private Rating rating;
+
+	public Comment() {
 	}
-	
+
 	public String getId() {
-		return id;
+		return this.id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getCreatedBy() {
-		return createdBy;
+
+	public Timestamp getCreateAt() {
+		return this.createAt;
 	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
 	}
-	public String getRatingId() {
-		return ratingId;
+
+	public Customer getCustomer() {
+		return this.customer;
 	}
-	public void setRatingId(String ratingId) {
-		this.ratingId = ratingId;
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
-	public String getCreatedAt() {
-		return createdAt;
+
+	public Rating getRating() {
+		return this.rating;
 	}
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
 	}
+
 }

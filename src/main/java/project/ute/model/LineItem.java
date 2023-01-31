@@ -2,73 +2,84 @@ package project.ute.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="LineItem")
-public class LineItem implements Serializable{
+public class LineItem implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id")
-	private String id;
-	
-	@Column(name="product_id")
-	private String productId;
-	
-	@Column(name="size_id")
-	private String sizeId;
-	
-	@Column(name="order_id")
-	private String orderId;
-	
-	@Column(name="quantity")
-	private long quantity;
-	
-	@Column(name="amount")
-	private long amount;
-	
-	public LineItem() {
 
+	@Id
+	private String id;
+
+	private Long amount;
+
+	private Long quantity;
+
+	//bi-directional many-to-one association to Order
+	@ManyToOne
+	private Order order;
+
+	//bi-directional many-to-one association to Product
+	@ManyToOne
+	private Product product;
+
+	//bi-directional many-to-one association to Size
+	@ManyToOne
+	private Size size;
+
+	public LineItem() {
 	}
-	
+
 	public String getId() {
-		return id;
+		return this.id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getProductId() {
-		return productId;
+
+	public Long getAmount() {
+		return this.amount;
 	}
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-	public String getSizeId() {
-		return sizeId;
-	}
-	public void setSizeId(String sizeId) {
-		this.sizeId = sizeId;
-	}
-	public String getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
-	public long getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(long quantity) {
-		this.quantity = quantity;
-	}
-	public long getAmount() {
-		return amount;
-	}
-	public void setAmount(long amount) {
+
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+
+	public Long getQuantity() {
+		return this.quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+
+	public Order getOrder() {
+		return this.order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Product getProduct() {
+		return this.product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Size getSize() {
+		return this.size;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
+
 }
