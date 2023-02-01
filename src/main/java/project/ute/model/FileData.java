@@ -1,134 +1,98 @@
 package project.ute.model;
 
-import java.io.Serializable;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Builder;
 import jakarta.persistence.*;
 
+
 @Entity
-@Table(name="Image")
-@Builder
-public class Image implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+@Table(name = "FILE_DATA")
+public class FileData {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
     private String type;
-    @Lob
-    @Column(name = "imagedata",length = 1000)
-    private byte[] imageData;
-
-	//bi-directional many-to-one association to Product
-	@ManyToOne
-	private Product product;
-
-	public Image() {
+    private String filePath;
+    
+	public FileData() {
+		super();
 	}
-
-	public Image(String name, String type, byte[] imageData) {
+	
+	public FileData(String name, String type, String filePath) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.imageData = imageData;
+		this.filePath = filePath;
 	}
-
-
+	
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public byte[] getImageData() {
-		return imageData;
+	public String getFilePath() {
+		return filePath;
 	}
-
-	public void setImageData(byte[] imageData) {
-		this.imageData = imageData;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
+	
 //	public static class  builder{
 //		private long id;
 //	    private String name;
 //	    private String type;
-//	    private byte[] imageData;
+//	    private String filePath;
 //	    
-//		public builder() {
+//	    public builder() {
 //			super();
 //		}
-//		
-//		public builder(long id, String name, String type, byte[] imageData) {
+//	     
+//		public builder(long id, String name, String type, String filePath) {
 //			super();
 //			this.id = id;
 //			this.name = name;
 //			this.type = type;
-//			this.imageData = imageData;
+//			this.filePath = filePath;
 //		}
-//		
+//
 //		public long getId() {
 //			return id;
 //		}
-//
 //		public void setId(long id) {
 //			this.id = id;
 //		}
-//
 //		public String getName() {
 //			return name;
 //		}
-//
 //		public void setName(String name) {
 //			this.name = name;
 //		}
-//
 //		public String getType() {
 //			return type;
 //		}
-//
 //		public void setType(String type) {
 //			this.type = type;
 //		}
-//
-//		public byte[] getImageData() {
-//			return imageData;
+//		public String getFilePath() {
+//			return filePath;
 //		}
-//
-//		public void setImageData(byte[] imageData) {
-//			this.imageData = imageData;
+//		public void setFilePath(String filePath) {
+//			this.filePath = filePath;
 //		}
 //		
-//
 //		public builder id(long id) {
 //			this.id = id;
 //			return this;
@@ -144,14 +108,14 @@ public class Image implements Serializable {
 //			return this;
 //		}
 //		
-//		public builder imageData(byte[] imageData) {
-//			this.imageData = imageData;
+//		public builder filePath(String filePath) {
+//			this.filePath = filePath;
 //			return this;
 //		}
 //		
-//		public Image build() {
-//			Image image = new Image();
-//			return image;
+//		public FileData build() {
+//			FileData fileData = new FileData();
+//			return fileData;
 //		}
 //	}
 }
