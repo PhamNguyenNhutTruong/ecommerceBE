@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import project.ute.model.Image;
 
 @Repository
-public interface ImageRepository extends JpaRepository<Image, String> {
-	Optional<Image> findByName(String fileName);
-//	Image findByName(String fileName);
+public interface ImageRepository extends JpaRepository<Image, Long>{
+	 Optional<Image> findByName(String fileName);
 }
