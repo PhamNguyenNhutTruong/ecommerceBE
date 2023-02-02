@@ -12,7 +12,7 @@ public class Image {
     private long id;
     private String name;
     private String type;
-    private String filePath;
+    private byte[] filePath;
     
   //bi-directional many-to-one association to Product
   	@ManyToOne
@@ -22,13 +22,15 @@ public class Image {
 		super();
 	}
 	
-	public Image(String name, String type, String filePath) {
+	public Image(String name, String type, byte[] filePath, Product product) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.filePath = filePath;
+		this.product = product;
 	}
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -47,13 +49,14 @@ public class Image {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getFilePath() {
+
+	public byte[] getFilePath() {
 		return filePath;
 	}
-	public void setFilePath(String filePath) {
+
+	public void setFilePath(byte[] filePath) {
 		this.filePath = filePath;
 	}
-	
 	public Product getProduct() {
 		return product;
 	}
