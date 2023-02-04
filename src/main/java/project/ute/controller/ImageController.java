@@ -24,12 +24,13 @@ import project.ute.service.ImageService;
 public class ImageController {
 	@Autowired
 	ImageService imageService;
-	
+
+//	CẦN THÊM VÀO TRƯỜNG ID(PRODUCT_ID) ĐỂ BIẾT ĐƯỢC NHỮNG TẤM HÌNH ĐÓ LÀ CỦA SẢN PHẨM NÀO
 	@RequestMapping(value = "/image/upload", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<?> uploadImage(@RequestParam("images")MultipartFile[] images) throws IOException {
+	public ResponseEntity<?> uploadImage(@RequestParam("images")MultipartFile[] images, @RequestParam("id")String productId) throws IOException {
 		try {
 			for(MultipartFile image : images) {
-				imageService.uploadImage(image);
+				imageService.uploadImage(image, productId);
 			}
 			return ResponseEntity.status(HttpStatus.OK).body("Upload images successfully");
 		} catch (Exception e) {
@@ -44,9 +45,13 @@ public class ImageController {
 	}
 	
 //	Dùng cho phía FE lấy được hình ảnh từ DB
-	@RequestMapping(value = "/image/download/{fileName}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<byte[]> downloadImage(@PathVariable("fileName") String fileName)  {
-		byte[] image = imageService.downloadImage(fileName);
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+	@RequestMapping(value = "/image/download/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<?> downloadImage(@PathVariable("fileName") String fileName)  {
+		try {
+			byte[] image = imageService.downloadImage(fileName);
+			return ResponseEntity.status(HttpStatus.OK).body(image);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body("Download Images Failed");
+		}
 	}
 }

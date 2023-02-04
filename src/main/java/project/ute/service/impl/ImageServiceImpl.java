@@ -12,21 +12,27 @@ import org.springframework.web.multipart.MultipartFile;
 import project.ute.dto.ImageDto;
 import project.ute.mapper.ImageMapper;
 import project.ute.model.Image;
+import project.ute.model.Product;
 import project.ute.respository.ImageRepository;
 import project.ute.service.ImageService;
+import project.ute.service.ProductService;
 import project.ute.util.ImageUtils;
 
 @Service
 public class ImageServiceImpl implements ImageService{
 	@Autowired
 	ImageRepository imageRepository;
+	
+	@Autowired
+	ProductService productService;
 
 	@Override
-	public void uploadImage(MultipartFile file) throws IOException {
+	public void uploadImage(MultipartFile file, String productId) throws IOException {
 		Image image = new Image();
 		image.setName(file.getOriginalFilename());
 		image.setType(file.getContentType());
 		image.setFilePath(ImageUtils.compressImage(file.getBytes()));
+		image.setProduct(productService.findProductById(productId));
 		imageRepository.save(image);
 	}
 

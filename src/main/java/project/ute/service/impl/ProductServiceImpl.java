@@ -20,6 +20,10 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductRepository productRepository;
 	
+	public  Product findProductById(String id) {
+		return productRepository.findProductById(id);
+	}
+	
 	public List<ProductDto> getProductByCategoryId(String id, Optional<Integer> pageNo) {
 		PageRequest pageable = PageRequest.of(pageNo.orElse(0), 8);
 		List<Product> products = new ArrayList<>();
