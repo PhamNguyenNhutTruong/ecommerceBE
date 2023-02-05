@@ -1,100 +1,192 @@
 package project.ute.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Product")
-public class Product implements Serializable{
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id")
 	private String id;
-	
-	@Column(name="name")
-	private String name;
-	
-	@Column(name="price")
-	private long price;
-	
-	@Column(name="price_sale")
-	private long price_sale;
-	
-	@Column(name="detail")
+
 	private String detail;
+
+	@Column(name="main_image")
+	private String mainImage;
 	
-	@Column(name="status")
-	private String status;
-	
-	@Column(name="image_id")
-	private String imageId;
-	
-	@Column(name="categoy_id")
-	private String categoryId;
-	
-	@Column(name="create_by")
-	private String createBy;
-	
-	
-	public String getId() {
-		return id;
+	private String name;
+
+	private Long price;
+
+	@Column(name="price_sale")
+	private Long priceSale;
+
+	private Boolean status;
+
+	//bi-directional many-to-one association to Image
+	@OneToMany(mappedBy="product")
+	private List<Image> images;
+
+	//bi-directional many-to-one association to LineItem
+	@OneToMany(mappedBy="product")
+	private List<LineItem> lineItems;
+
+	//bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	private Category category;
+
+	//bi-directional many-to-many association to Customer
+	@ManyToMany
+	@JoinTable(
+		name="wishlist"
+		, joinColumns={
+			@JoinColumn(name="product_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="customer_id")
+			}
+		)
+	private List<Customer> customers;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="create_by")
+	private User user;
+
+	public Product() {
 	}
+
+	public String getId() {
+		return this.id;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public long getPrice() {
-		return price;
-	}
-	public void setPrice(long price) {
-		this.price = price;
-	}
-	public long getPrice_sale() {
-		return price_sale;
-	}
-	public void setPrice_sale(long price_sale) {
-		this.price_sale = price_sale;
-	}
+
 	public String getDetail() {
-		return detail;
+		return this.detail;
 	}
+
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public String getStatus() {
-		return status;
+
+	public String getMainImage() {
+		return this.mainImage;
 	}
-	public void setStatus(String status) {
+
+	public void setMainImage(String mainImage) {
+		this.mainImage = mainImage;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+
+	public Long getPriceSale() {
+		return this.priceSale;
+	}
+
+	public void setPriceSale(Long priceSale) {
+		this.priceSale = priceSale;
+	}
+
+	public Boolean getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	public String getImageId() {
-		return imageId;
+
+	public List<Image> getImages() {
+		return this.images;
 	}
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
-	public String getCategoryId() {
-		return categoryId;
+
+	public Image addImage(Image image) {
+		getImages().add(image);
+		image.setProduct(this);
+
+		return image;
 	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
+
+	public Image removeImage(Image image) {
+		getImages().remove(image);
+		image.setProduct(null);
+
+		return image;
 	}
-	public String getCreateBy() {
-		return createBy;
+
+	public List<LineItem> getLineItems() {
+		return this.lineItems;
 	}
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
 	}
-	
-	
+
+	public LineItem addLineItem(LineItem lineItem) {
+		getLineItems().add(lineItem);
+		lineItem.setProduct(this);
+
+		return lineItem;
+	}
+
+	public LineItem removeLineItem(LineItem lineItem) {
+		getLineItems().remove(lineItem);
+		lineItem.setProduct(null);
+
+		return lineItem;
+	}
+
+	public Category getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<Customer> getCustomers() {
+		return this.customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

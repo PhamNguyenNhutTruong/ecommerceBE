@@ -16,6 +16,7 @@ import project.ute.service.SizeService;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/api")
 public class SizeController {
 	@Autowired
 	SizeService sizeService;

@@ -1,58 +1,69 @@
 package project.ute.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Image")
-public class Image implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id")
-	private String id;
-	
-	@Column(name="link")
-	private String link;
-	
-	@Column(name="detail")
-	private String detail;
-	
-	@Column(name="product_id")
-	private String productId;
-	
-	public Image() {
+@Table(name = "Image")
+public class Image {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    
+    @Column(unique=true)
+    private String name;
+    private String type;
+    private byte[] filePath;
+    
+  //bi-directional many-to-one association to Product
+  	@ManyToOne
+  	private Product product;
+    
+	public Image() {
+		super();
 	}
 	
-	public String getId() {
+	public Image(String name, String type, byte[] filePath, Product product) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.filePath = filePath;
+		this.product = product;
+	}
+
+
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getLink() {
-		return link;
+	public String getName() {
+		return name;
 	}
-	public void setLink(String link) {
-		this.link = link;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getDetail() {
-		return detail;
+	public String getType() {
+		return type;
 	}
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setType(String type) {
+		this.type = type;
 	}
-	public String getProductId() {
-		return productId;
+
+	public byte[] getFilePath() {
+		return filePath;
 	}
-	public void setProductId(String productId) {
-		this.productId = productId;
+
+	public void setFilePath(byte[] filePath) {
+		this.filePath = filePath;
 	}
-	
-	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }
