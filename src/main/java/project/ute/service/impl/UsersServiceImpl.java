@@ -1,6 +1,7 @@
 package project.ute.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,4 +39,8 @@ public class UsersServiceImpl implements UsersService{
 		return userId;
 	}
 
+	@Override
+	public Optional<User> loadUserByEmail(String email) {
+		return userRepository.getByEmail(email);
+	}
 }

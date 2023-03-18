@@ -135,7 +135,6 @@ public class SignUpServiceImpl implements SignUpService{
 				User user = new User();
 //				Đã random được ID
 				user.setId(usersService.randomUserId());
-//				Đã mã hóa được email
 				user.setEmail(email);
 //				Đã mã hóa mật khẩu
 				user.setPassword(BcryptUtils.hashpwd(pass));
