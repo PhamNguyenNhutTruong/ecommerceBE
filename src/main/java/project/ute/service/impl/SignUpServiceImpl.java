@@ -53,7 +53,7 @@ public class SignUpServiceImpl implements SignUpService{
 				+ "      <a href=\"\" style=\"font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600\">TAT Coffee</a>\r\n"
 				+ "    </div>\r\n"
 				+ "    <p style=\"font-size:1.1em\">Hi,</p>\r\n"
-				+ "    <p>Thank you for choosing TAT Coffee. Use the following OTP to complete your Sign Up procedures. OTP is valid for 3 minutes</p>\r\n"
+				+ "    <p>Thank you for choosing TAT Coffee. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>\r\n"
 				+ "    <h2 style=\"background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;\">"+ otpCode +"</h2>\r\n"
 				+ "    <p style=\"font-size:0.9em;\">TAT Coffee,<br />Your Brand</p>\r\n"
 				+ "    <hr style=\"border:none;border-top:1px solid #eee\" />\r\n"
@@ -73,7 +73,7 @@ public class SignUpServiceImpl implements SignUpService{
         mailSender.send(message);
         
         Cookie cookie = new Cookie(toMailEncoder, otpCode);
-        cookie.setMaxAge(3 * 60);
+        cookie.setMaxAge(5 * 60);
 //        cookie.setSecure(true);
 //        cookie.setHttpOnly(true);
         cookie.setPath("/");
