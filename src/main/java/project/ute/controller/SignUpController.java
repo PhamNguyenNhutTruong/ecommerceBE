@@ -44,11 +44,12 @@ public class SignUpController {
 				email = toMail;
 				pass = password;
 				signUpService.sendEmail(email, response);
+				return ResponseEntity.status(HttpStatus.OK).body(messageDto);
 			} 
+			return ResponseEntity.status(HttpStatus.OK).body(messageDto);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(messageDto);
 	}
 	
 	
