@@ -16,7 +16,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-	    response.getWriter().write("Access Denied!");
+//	    response.getWriter().write("Access Denied!");
+		response.getWriter().write(accessDeniedException.getMessage());
 	}
 
 }

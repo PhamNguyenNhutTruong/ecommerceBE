@@ -157,7 +157,7 @@ public class User implements UserDetails {
 	@Transient
 	public List<GrantedAuthority> getAuthorities() {
 	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-	    authorities.add(new SimpleGrantedAuthority(getRole().toString()));
+	    authorities.add(new SimpleGrantedAuthority(getRole().toString().equals("1") ? "ROLE_USER" : "ROLE_ADMIN"));
 	    return authorities;
 	}
 

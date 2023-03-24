@@ -33,17 +33,16 @@ public class SecurityConfiguration   {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// Disable crsf cho đường dẫn /rest/**
-		
 		http.csrf().ignoringRequestMatchers("/api/**");
 		http.authorizeHttpRequests().requestMatchers("/api/login/**").permitAll();
-		http.authorizeHttpRequests().requestMatchers("/api/sign-up-account/**").permitAll();
-		http.authorizeHttpRequests().requestMatchers("/api/sign-up-account/verify-account").permitAll();
+//		http.authorizeHttpRequests().requestMatchers("/api/image/upload/**").permitAll();
+//		http.authorizeHttpRequests().requestMatchers("/api/size/**").permitAll();
 		
 		http.httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()
-				.requestMatchers(HttpMethod.GET, "/api/user/**").hasAnyRole("1","0")
-				.requestMatchers(HttpMethod.POST, "/api/user/**").hasAnyRole("1","0")
-				.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("0").and()
+				.requestMatchers(HttpMethod.GET, "/api/user/**").hasAnyRole("ADMIN","USER")
+				.requestMatchers(HttpMethod.POST, "/api/image/upload/**").hasAnyRole("ADMIN","USER")
+				.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN").and()
 				.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
 		return http.build();
