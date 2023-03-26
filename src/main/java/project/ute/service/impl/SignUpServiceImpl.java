@@ -91,14 +91,14 @@ public class SignUpServiceImpl implements SignUpService{
 
 	@Override
 	public MessageDto checkContionSignUp(String email, String password) {
-		MessageDto messageDto = new MessageDto("Sign Up Message", "Verify OTP code to complete sign up", ConstantUtils.SUCCESS);
+		MessageDto messageDto = new MessageDto("Sign Up Message", "Verify OTP code to complete sign up", ConstantUtils.SUCCESS, HttpStatus.OK);
 		
 		if (!this.validateEmail(email)) {
-			return new MessageDto("Sign Up Message", "Email Invalid!!!", ConstantUtils.ERROR);
+			return new MessageDto("Sign Up Message", "Email Invalid!!!", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		if(!passwordUtils.checkPasswordStrong(password)) {
-			return new MessageDto("Sign Up Message", "Password must be at least 8 characters!!!", ConstantUtils.ERROR);
+			return new MessageDto("Sign Up Message", "Password must be at least 8 characters!!!", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return messageDto;
@@ -117,11 +117,11 @@ public class SignUpServiceImpl implements SignUpService{
 			}
 			
 			if (otpInCookie.equals(otpCode)) {
-				return new MessageDto("Verify email", "Verify email successfull", ConstantUtils.SUCCESS);
+				return new MessageDto("Verify email", "Verify email successfull", ConstantUtils.SUCCESS, HttpStatus.OK);
 			}
-			return new MessageDto("Verify email", "Verify email falied", ConstantUtils.ERROR);
+			return new MessageDto("Verify email", "Verify email falied", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
-			return new MessageDto("Verify email", "OTP - Time out", ConstantUtils.ERROR);
+			return new MessageDto("Verify email", "OTP - Time out", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -142,13 +142,13 @@ public class SignUpServiceImpl implements SignUpService{
 				user.setRole(role);
 				
 				usersService.addUsers(user);
-				return new MessageDto("Sign up account", "Sign up successful", ConstantUtils.SUCCESS);
+				return new MessageDto("Sign up account", "Sign up successful", ConstantUtils.SUCCESS, HttpStatus.OK);
 			} else {
 //				Xác nhận mã OTP thất bại -> Trả về thông báo bị lỗi
 				return messageDto;
 			}
 		} catch (Exception e) {
-			return new MessageDto("Sign up account", "Email has already exist", ConstantUtils.ERROR);
+			return new MessageDto("Sign up account", "Email has already exist", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

@@ -24,8 +24,8 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public List<User> getAllUsersById(String id) {
-		return userRepository.getAllUsersById(id);
+	public List<User> getUsersById(String id) {
+		return userRepository.getUsersById(id);
 	}
 
 	@Override
@@ -33,54 +33,12 @@ public class UsersServiceImpl implements UsersService{
 		String userId =  null;
 		do {
 			userId = RandomNumber.randomId("US");
-		} while(this.getAllUsersById(userId).size() > 0);
+		} while(this.getUsersById(userId).size() > 0);
 		return userId;
 	}
 
 	@Override
 	public Optional<User> loadUserByEmail(String email) {
 		return userRepository.getByEmail(email);
-	}
-
-	@Override
-	public void delete(User entity) {
-		userRepository.delete(entity);
-		
-	}
-
-	@Override
-	public boolean checkLogin(User user) {
-		List<User> listUser = userRepository.findAll();
-		for (User userExist : listUser) {
-			if (user.getEmail().equals(userExist.getEmail())
-					&& BcryptUtils.checkpwd(user.getPassword(), userExist.getPassword())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public Optional<User> findById(String id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public <S extends User> boolean save(S entity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void deleteById(String id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

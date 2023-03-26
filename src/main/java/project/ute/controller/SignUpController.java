@@ -44,11 +44,11 @@ public class SignUpController {
 				email = toMail;
 				pass = password;
 				signUpService.sendEmail(email, response);
-				return ResponseEntity.status(HttpStatus.OK).body(messageDto);
+//				return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 			} 
-			return ResponseEntity.status(HttpStatus.OK).body(messageDto);
+			return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(messageDto.getHttpStatus()).body(e.getMessage());
 		}
 	}
 	
@@ -56,6 +56,6 @@ public class SignUpController {
 	@RequestMapping(value = "/sign-up-account/verify-account", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<?> verifyMail(@RequestParam("otp-code") String otpCode, HttpServletRequest request) throws IOException {
 		MessageDto messageDto = signUpService.signUpAccount(email, pass, 1, otpCode, request);
-		return ResponseEntity.status(HttpStatus.OK).body(messageDto);
+		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 }

@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
+import project.ute.dto.AccountDto;
+import project.ute.dto.MessageDto;
 import project.ute.model.User;
 import project.ute.sbjwt.service.JwtService;
+import project.ute.service.LoginService;
 import project.ute.service.UsersService;
+import project.ute.util.ConstantUtils;
 
 
 @RestController
@@ -30,59 +34,27 @@ public class LoginController {
 
 	@Autowired
 	private UsersService userService;
-
-	/* ---------------- GET ALL USER ------------------------ */
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getAllUser() {
-		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
-	}
-
-	/* ---------------- GET USER BY ID ------------------------ */
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getUserById(@PathVariable String id) {
-		Optional<User> user = userService.findById(id);
-		if (user != null) {
-			return new ResponseEntity<Object>(user, HttpStatus.OK);
-		}
-		return new ResponseEntity<Object>("Not Found User", HttpStatus.NO_CONTENT);
-	}
-
-	/* ---------------- CREATE NEW USER ------------------------ */
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<String> createUser(@RequestBody User user) {
-		User entity = new User();
-		BeanUtils.copyProperties(user, entity);
-		if (userService.save(entity)) {
-			return new ResponseEntity<String>("Created!", HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<String>("User Existed!", HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	/* ---------------- DELETE USER ------------------------ */
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteUserById(@PathVariable String id) {
-		userService.deleteById(id);
-		return new ResponseEntity<String>("Deleted!", HttpStatus.OK);
-	}
+	
+	@Autowired
+	private LoginService loginService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(HttpServletRequest request, @RequestBody User user) {
-		String result = "";
-		HttpStatus httpStatus = null;
-		//Example<User> entity = Example.of(user);
-		try {
-			if (userService.checkLogin(user)) {
-				result = jwtService.generateTokenLogin(user.getEmail());
-				httpStatus = HttpStatus.OK;
-			} else {
-				result = "Wrong userId and password";
-				httpStatus = HttpStatus.BAD_REQUEST;
-			}
-		} catch (Exception ex) {
-			result = "Server Error";
-			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<String>(result, httpStatus);
+	public ResponseEntity<?> login(HttpServletRequest request, @RequestBody AccountDto accountDto) {		
+		/*
+		 Object được đưa xuống có dạng: {"email":"20110756@student.hcmute.edu.vn","password" : "pnnt19062002", "role": 0/1, "isGoogleLogin": true/false}
+		 Kiểm tra nếu is_google_login
+		 - Là true: là đăng nhập bằng google
+		 - Là false:  là đăng nhập bằng tay
+		 
+		 Kiểm tra role
+		 - Nếu role là 1 thì lưu vào bảng customer
+		 - Nếu role là 0 thù lưu vào bảng user
+		 
+		 Kiểm tra tài khoản
+		 - Nếu chưa có thì tạo tài khoản mới
+		 - Nếu đã có tài khoản thì cho đăng nhập và tạo token cho lần đăng nhập đó.
+		 */
+		MessageDto messageDto = loginService.handleLogin(accountDto);
+		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 }
