@@ -43,36 +43,10 @@ public class JwtService {
 		return token;
 	}
 
-	//JWS
-//	public String generateTokenLogin(String username) {
-//	    String token = null;
-//	    try {
-//	      // Create HMAC signer
-//	      JWSSigner signer = new MACSigner(generateShareSecret());
-//	      // Trình tạo để xây dựng các bộ xác nhận quyền sở hữu JSON Web Token (JWT).
-//	      JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-//	      builder.claim(USERNAME, username);
-//	      builder.expirationTime(generateExpirationDate());
-//	      JWTClaimsSet claimsSet = builder.build();
-//	      /** Tạo mã JWT mới được ký với header mã hóa bằng HS256 
-//	       *  cùng với các xác nhận quyền sở hữu đã chỉ định trong claimsSet. Trạng thái ban đầu sẽ là unsigned.
-//	       */
-//	      SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
-//	      // Apply the HMAC protection: Tạo chữ ký  và kiểm chứng token 
-//	      signedJWT.sign(signer);
-//	      token = signedJWT.serialize();
-//	    } catch (Exception e) {
-//	      e.printStackTrace();
-//	    }
-//	    return token;
-//	}
-
 	//JWE
 	public String generateTokenLogin(String username) {
 	    String token = null;
 	    try {
-	      // Create HMAC signer
-	      //JWSSigner signer = new MACSigner(generateShareSecret());
 	      // Trình tạo để xây dựng các bộ xác nhận quyền sở hữu JSON Web Token (JWT).
 	      JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
 	      builder.claim(USERNAME, username);
@@ -91,24 +65,6 @@ public class JwtService {
 	    return token;
 	}
 
-//	/* JWS: Lấy các thông tin trong Claims đã được lưu trong token
-
-//	private JWTClaimsSet getClaimsFromToken(String token) {
-//		token = stripBearerToken(token);
-//		JWTClaimsSet claims = null;
-//		try {
-//			SignedJWT signedJWT = SignedJWT.parse(token);
-//			JWSVerifier verifier = new MACVerifier(generateShareSecret());
-//			if (signedJWT.verify(verifier)) {
-//				claims = signedJWT.getJWTClaimsSet();
-//				//System.out.println(claims);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return claims;
-//	}
-
 	//JWE
 	private JWTClaimsSet getClaimsFromToken(String token) {
 		ConfigurableJWTProcessor<SimpleSecurityContext> jwtProcessor = new DefaultJWTProcessor<SimpleSecurityContext>();
@@ -119,15 +75,6 @@ public class JwtService {
 		token = stripBearerToken(token);
 		JWTClaimsSet claims = null;
 		try {
-//			JWEObject jweObject = JWEObject.parse(token);
-//			//DirectDecrypter verifier = new DirectDecrypter(generateShareSecret());
-//			jweObject.decrypt(new DirectDecrypter(generateShareSecret()));
-//			System.out.println(token);
-//			System.out.println(jweObject.getPayload());
-//			SignedJWT signedJWT = jweObject.getPayload().toSignedJWT();
-//			if (signedJWT.verify(new MACVerifier(generateShareSecret()))) {
-//				claims = signedJWT.getJWTClaimsSet();
-//			}
 			claims = jwtProcessor.process(token, null);
 			System.out.println(claims);
 		} catch (Exception e) {
@@ -182,6 +129,7 @@ public class JwtService {
 	public Boolean validateTokenLogin(String token) {
 		token = stripBearerToken(token);
 	    if (token == null || token.trim().length() == 0) {
+	    	System.out.println("------------ Rong ---------------");
 	      return false;
 	    }
 	    String username = getUsernameFromToken(token);

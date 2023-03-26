@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.micrometer.common.util.StringUtils;
 import project.ute.model.User;
 import project.ute.respository.UserRepository;
 import project.ute.service.UsersService;
+import project.ute.util.BcryptUtils;
 import project.ute.util.RandomNumber;
 
 @Service
@@ -22,8 +24,8 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public List<User> getAllUsersById(String id) {
-		return userRepository.getAllUsersById(id);
+	public List<User> getUsersById(String id) {
+		return userRepository.getUsersById(id);
 	}
 
 	@Override
@@ -31,11 +33,7 @@ public class UsersServiceImpl implements UsersService{
 		String userId =  null;
 		do {
 			userId = RandomNumber.randomId("US");
-//			List<User> users = this.getAllUsersById(userId);
-//			if (users.size() <= 0) {
-//				return userId;
-//			}
-		} while(this.getAllUsersById(userId).size() > 0);
+		} while(this.getUsersById(userId).size() > 0);
 		return userId;
 	}
 

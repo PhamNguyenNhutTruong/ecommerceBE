@@ -9,7 +9,7 @@ import project.ute.model.User;
 
 public interface UsersService {
 	public void addUsers(User user);
-	public List<User> getAllUsersById(String id);
+	public List<User> getUsersById(String id);
 	public String randomUserId();
 	Optional<User> loadUserByEmail(String email);
 }

@@ -11,7 +11,7 @@ import project.ute.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
 	@Query("SELECT u FROM User u WHERE u.id=?1")
-	public List<User> getAllUsersById(String id);
+	public List<User> getUsersById(String id);
 	
 	Optional<User> getByEmail(String email);
 }
