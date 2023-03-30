@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import project.ute.dto.AccountDto;
 import project.ute.dto.MessageDto;
+import project.ute.dto.TokenDto;
 import project.ute.model.Customer;
 import project.ute.model.User;
 import project.ute.sbjwt.service.JwtService;
@@ -20,6 +21,16 @@ import project.ute.util.ConstantUtils;
 
 @Service
 public class LoginServiceImpl implements LoginService{
+	public int role = -1;
+	
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
 	@Autowired
 	UsersService usersService;
 	
@@ -34,6 +45,9 @@ public class LoginServiceImpl implements LoginService{
 
 	@Override
 	public MessageDto handleLogin(AccountDto accountDto) {
+		String actionGen = ConstantUtils.GEN_TOKEN;
+		String actionRef = ConstantUtils.REF_TOKEN;
+		this.setRole(accountDto.getRole());
 //		Kiểm tra nếu là đăng nhập bằng google
 		if (accountDto.isGoogleLogin()) {
 //			Nếu role == 1 --> vai trò khách hàng
@@ -43,8 +57,13 @@ public class LoginServiceImpl implements LoginService{
 				if(!customer.isEmpty()) {
 //					Kiểm tra nếu đúng mật khẩu thì cho đăng nhập
 					if(BcryptUtils.checkpwd(accountDto.getPassword(), customer.get().getPassword())) {
-						String token = jwtService.generateTokenLogin(customer.get().getEmail());
-						return new MessageDto("Google Login", "Login successfull", token, ConstantUtils.SUCCESS, HttpStatus.OK);
+						String token = jwtService.generateTokenLogin(customer.get().getEmail(), actionGen);
+						String refreshToken = jwtService.generateTokenLogin(customer.get().getEmail(), actionRef);
+						
+						TokenDto tokenDto = new TokenDto();
+						tokenDto.setAccessToken(token);
+						tokenDto.setRefreshToken(refreshToken);
+						return new MessageDto("Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 					}
 				} 
 //				Nếu email đó chưa được đăng kí
@@ -64,12 +83,17 @@ public class LoginServiceImpl implements LoginService{
 					
 					customerService.addNewCutomer(customerAccount);
 //					Cho pass qua đăng nhập
-					String token = jwtService.generateTokenLogin(accountDto.getEmail());
-					return new MessageDto("Google Login", "Login successfull", token, ConstantUtils.SUCCESS, HttpStatus.OK);
+					String token = jwtService.generateTokenLogin(accountDto.getEmail(), actionGen);
+					String refreshToken = jwtService.generateTokenLogin(customer.get().getEmail(), actionRef);
+					
+					TokenDto tokenDto = new TokenDto();
+					tokenDto.setAccessToken(token);
+					tokenDto.setRefreshToken(refreshToken);
+					return new MessageDto("Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 				}
 			} 
 		} 
-
+		
 //		Kiểm tra nếu không phải đăng nhập bằng google
 		MessageDto messageDto = signUpService.checkContionSignUp(accountDto.getEmail(), accountDto.getPassword());
 		if(messageDto.getStatus() == ConstantUtils.SUCCESS) {
@@ -77,8 +101,13 @@ public class LoginServiceImpl implements LoginService{
 			if(!user.isEmpty()) {
 				String passwordHash = user.get().getPassword();
 				if(BcryptUtils.checkpwd(accountDto.getPassword(), passwordHash)) {
-					String token = jwtService.generateTokenLogin(user.get().getEmail());
-					return new MessageDto("Google Login", "Login successfull", token, ConstantUtils.SUCCESS, HttpStatus.OK);
+					String token = jwtService.generateTokenLogin(user.get().getEmail(), actionGen);
+					String refreshToken = jwtService.generateTokenLogin(user.get().getEmail(), actionRef);
+					
+					TokenDto tokenDto = new TokenDto();
+					tokenDto.setAccessToken(token);
+					tokenDto.setRefreshToken(refreshToken);
+					return new MessageDto("Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 				} else {
 					return new MessageDto("Login", "Incorrect password", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 				}

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import project.ute.dto.MessageDto;
 import project.ute.model.Customer;
+import project.ute.model.User;
 
 public interface CustomerService {
 	public Optional<Customer> checkCustomerAccount(String email);

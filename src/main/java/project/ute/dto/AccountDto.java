@@ -1,6 +1,16 @@
 package project.ute.dto;
 
-public class AccountDto {
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import jakarta.persistence.Transient;
+
+public class AccountDto implements UserDetails{
 	private String email;
 	private String password;
 	private int role;
@@ -35,5 +45,49 @@ public class AccountDto {
 	}
 	public void setGoogleLogin(boolean isGoogleLogin) {
 		this.isGoogleLogin = isGoogleLogin;
+	}
+	
+	@Transient
+	public List<GrantedAuthority> getAuthorities() {
+	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+	    String role = null;
+	    
+	    if (this.getRole() == 1) {
+	    	role = "ROLE_USER";
+	    } else if (this.getRole() == 0) {
+	    	role = "ROLE_ADMIN";
+	    }
+	    authorities.add(new SimpleGrantedAuthority(role));
+	    return authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
