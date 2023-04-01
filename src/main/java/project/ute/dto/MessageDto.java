@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 public class MessageDto {
 	private String title;
 	private String message;
-	private String token;
 	private String status;
+	private String email;
+	private TokenDto token;
 	private HttpStatus httpStatus;
 	
 	public MessageDto() {
@@ -29,13 +30,14 @@ public class MessageDto {
 		this.httpStatus = httpStatus;
 	}
 	
-
-	public MessageDto(String title, String message, String token, String status, HttpStatus httpStatus) {
+	
+	public MessageDto(String title, String message, String status, String email, TokenDto token, HttpStatus httpStatus) {
 		super();
 		this.title = title;
 		this.message = message;
-		this.token = token;
 		this.status = status;
+		this.email = email;
+		this.token = token;
 		this.httpStatus = httpStatus;
 	}
 
@@ -66,11 +68,19 @@ public class MessageDto {
 		this.httpStatus = httpStatus;
 	}
 	
-	public String getToken() {
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public TokenDto getToken() {
 		return token;
 	}
 
-	public void setToken(String token) {
+	public void setToken(TokenDto token) {
 		this.token = token;
 	}
 }

@@ -36,6 +36,7 @@ public class SecurityConfiguration   {
 		http.csrf().ignoringRequestMatchers("/api/**");
 		http.authorizeHttpRequests().requestMatchers("/api/login/**").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/sign-up-account/**").permitAll();
+		http.authorizeHttpRequests().requestMatchers("/api/refresh-token/**").permitAll();
 		
 		http.httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()

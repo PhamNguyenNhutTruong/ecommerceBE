@@ -3,59 +3,49 @@ package project.ute.sbjwt.service;
 import java.util.Date;
 import org.springframework.stereotype.Service;
 
-import com.nimbusds.jose.JWSSigner;
-import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.Payload;
-import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JWEAlgorithm;
-import com.nimbusds.jose.JWEDecrypter;
 import com.nimbusds.jose.JWEHeader;
 import com.nimbusds.jose.JWEObject;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.crypto.DirectDecrypter;
 import com.nimbusds.jose.crypto.DirectEncrypter;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.JWEDecryptionKeySelector;
 import com.nimbusds.jose.proc.JWEKeySelector;
 import com.nimbusds.jose.proc.SimpleSecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 
+import project.ute.util.ConstantUtils;
+
 @Service
 public class JwtService {
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
-	public static final String SECRET_KEY = "11111111111111111111111111111111";
-	public static final int EXPIRE_TIME = 86400000;
-	private static final String BEARER_PREFIX = "Bearer ";
-
-
 	private String stripBearerToken(String token) {
 		if (token != null)
-			token = token.startsWith(BEARER_PREFIX) ? token.substring(BEARER_PREFIX.length()) : token;
+			token = token.startsWith(ConstantUtils.BEARER_PREFIX) ? token.substring(ConstantUtils.BEARER_PREFIX.length()) : token;
 		return token;
 	}
 
 	//JWE
-	public String generateTokenLogin(String username) {
+//	Tạo Token
+	public String generateTokenLogin(String username, String action) {
 	    String token = null;
 	    try {
 	      // Trình tạo để xây dựng các bộ xác nhận quyền sở hữu JSON Web Token (JWT).
 	      JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-	      builder.claim(USERNAME, username);
-	      builder.expirationTime(generateExpirationDate());
+	      if(action.equals("GEN")) {
+	    	  builder.claim(ConstantUtils.USERNAME_GEN, username);
+	      } else if(action.equals("REF")) {
+	    	  builder.claim(ConstantUtils.USERNAME_REF, username);
+	      }
+	      builder.expirationTime(generateExpirationDate(action));
 	      JWTClaimsSet claimsSet = builder.build();
 	      JWEHeader header = new JWEHeader(JWEAlgorithm.DIR, EncryptionMethod.A128CBC_HS256);
 	      DirectEncrypter encrypter = new DirectEncrypter(generateShareSecret());
 	      Payload payload = new Payload(claimsSet.toJSONObject());
-	      System.out.println(payload);
+//	      System.out.println("Payload" + payload);
 	      JWEObject jweObject = new JWEObject(header, payload);
 	      jweObject.encrypt(encrypter);
 	      token = jweObject.serialize();
@@ -64,7 +54,7 @@ public class JwtService {
 	    }
 	    return token;
 	}
-
+	
 	//JWE
 	private JWTClaimsSet getClaimsFromToken(String token) {
 		ConfigurableJWTProcessor<SimpleSecurityContext> jwtProcessor = new DefaultJWTProcessor<SimpleSecurityContext>();
@@ -76,7 +66,7 @@ public class JwtService {
 		JWTClaimsSet claims = null;
 		try {
 			claims = jwtProcessor.process(token, null);
-			System.out.println(claims);
+//			System.out.println("Claims: " + claims);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,8 +74,11 @@ public class JwtService {
 	}
 
 	// Gen thời hạn cho SecretKey
-	private Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + EXPIRE_TIME);
+	private Date generateExpirationDate(String action) {
+		if(action.equals("REF")) {
+			return new Date(System.currentTimeMillis() + ConstantUtils.EXPIRE_TIME_REF);
+	      } 
+		return new Date(System.currentTimeMillis() + ConstantUtils.EXPIRE_TIME_GEN);
 	}
 
 	// Từ token lấy ra Date
@@ -98,12 +91,16 @@ public class JwtService {
 	}
 
 	// Từ token lấy ra Username
-	public String getUsernameFromToken(String token) {
+	public String getUsernameFromToken(String token, String action) {
 		token = stripBearerToken(token);
 		String username = null;
 		try {
 			JWTClaimsSet claims = getClaimsFromToken(token);
-			username = claims.getStringClaim(USERNAME);
+			if(action.equals("GEN")) {
+				username = claims.getStringClaim(ConstantUtils.USERNAME_GEN);
+			} else if(action.equals("REF")) {
+				username = claims.getStringClaim(ConstantUtils.USERNAME_REF);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,25 +111,25 @@ public class JwtService {
 	private byte[] generateShareSecret() {
 		// Generate 256-bit (32-byte) shared secret
 		byte[] sharedSecret = new byte[32];
-		sharedSecret = SECRET_KEY.getBytes();
+		sharedSecret = ConstantUtils.SECRET_KEY.getBytes();
 		return sharedSecret;
 	}
 
 	// Kiểm tra token có hết hạn hay không
-	private Boolean isTokenExpired(String token) {
+	public Boolean isTokenExpired(String token) {
 		token = stripBearerToken(token);
 		Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
 	}
 
 	// Kiểm tra token có hợp lệ không
-	public Boolean validateTokenLogin(String token) {
+	public Boolean validateTokenLogin(String token, String action) {
 		token = stripBearerToken(token);
 	    if (token == null || token.trim().length() == 0) {
-	    	System.out.println("------------ Rong ---------------");
+//	    	System.out.println("------------ Rong ---------------");
 	      return false;
 	    }
-	    String username = getUsernameFromToken(token);
+	    String username = getUsernameFromToken(token, action);
 	    if (username == null || username.isEmpty()) {
 	      return false;
 	    }

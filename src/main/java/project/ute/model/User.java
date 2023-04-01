@@ -1,17 +1,12 @@
 package project.ute.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.persistence.*;
 
 @Entity
@@ -152,12 +147,14 @@ public class User implements UserDetails {
 		return website;
 	}
 	
-	
-
 	@Transient
 	public List<GrantedAuthority> getAuthorities() {
 	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-	    authorities.add(new SimpleGrantedAuthority(getRole().toString().equals("1") ? "ROLE_USER" : "ROLE_ADMIN"));
+	    String role = null;
+	    
+    	role = "ROLE_ADMIN";
+
+	    authorities.add(new SimpleGrantedAuthority(role));
 	    return authorities;
 	}
 
@@ -190,5 +187,4 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }
