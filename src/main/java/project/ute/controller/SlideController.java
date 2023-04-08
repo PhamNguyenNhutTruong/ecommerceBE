@@ -46,7 +46,7 @@ public class SlideController {
 		return ResponseEntity.status(HttpStatus.OK).body(slideDtos);
 	}
 	
-	@RequestMapping(value = "/slide/load-image/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/load-image/slide/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> downloadMainProductImage(@PathVariable("fileName") String fileName)  {
 		try {
 			byte[] image = slideService.loadSlideImage(fileName);
