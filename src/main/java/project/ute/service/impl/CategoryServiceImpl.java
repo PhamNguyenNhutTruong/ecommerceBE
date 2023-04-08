@@ -28,4 +28,9 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		return categoryDtos;
 	}
+
+	@Override
+	public Category getCategoryById(String id) {
+		return categoryRepository.getCategoryById(id);
+	}
 }

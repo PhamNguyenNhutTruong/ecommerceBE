@@ -8,4 +8,5 @@ import project.ute.dto.MessageDto;
 
 public interface RefreshTokenService {
 	public MessageDto handleRefreshToken(@NonNull HttpServletRequest request, AccountDto accountDto);
+	public MessageDto handleDeleteToken(@NonNull HttpServletRequest request);
 }

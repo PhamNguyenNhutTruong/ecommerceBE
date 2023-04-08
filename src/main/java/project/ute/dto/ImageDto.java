@@ -2,7 +2,7 @@ package project.ute.dto;
 
 public class ImageDto {
 	private String name;
-	private String img;
+	private String filePath;
 	
 	public ImageDto() {
 		super();
@@ -16,17 +16,17 @@ public class ImageDto {
 		this.name = name;
 	}
 
-	public ImageDto(String img) {
+	public ImageDto(String filePath) {
 		super();
-		this.img = img;
+		this.filePath = filePath;
 	}
 
-	public String getImg() {
-		return img;
+	public String getfilePath() {
+		return filePath;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public void setfilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	
 }

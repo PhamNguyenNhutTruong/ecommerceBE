@@ -21,8 +21,15 @@ public class RefreshTokenController {
 	RefreshTokenService refreshTokenService;
 	
 	@RequestMapping(value = "/refresh-token", method = RequestMethod.POST)
-	public ResponseEntity<?> login(HttpServletRequest request,  @RequestBody AccountDto accountDto) {		
+	public ResponseEntity<?> refreshToken(HttpServletRequest request,  @RequestBody AccountDto accountDto) {		
 		MessageDto messageDto = refreshTokenService.handleRefreshToken(request, accountDto);
+		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
+	}
+	
+	
+	@RequestMapping(value = "/delete-token", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteToken(HttpServletRequest request,  @RequestBody AccountDto accountDto) {		
+		MessageDto messageDto = refreshTokenService.handleDeleteToken(request);
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 }

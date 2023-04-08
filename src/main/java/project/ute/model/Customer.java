@@ -34,7 +34,7 @@ public class Customer implements UserDetails {
 
 	private String phonenumber;
 
-	private String picture;
+	private byte[] picture;
 
 	@Column(name="verified_email")
 	private String verifiedEmail;
@@ -122,11 +122,11 @@ public class Customer implements UserDetails {
 		this.phonenumber = phonenumber;
 	}
 
-	public String getPicture() {
+	public byte[] getPicture() {
 		return this.picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 
