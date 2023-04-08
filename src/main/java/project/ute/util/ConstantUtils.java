@@ -18,7 +18,7 @@ public class ConstantUtils {
 	
 	public static final String BEARER_PREFIX = "Bearer ";
 	
-	public final static String TOKEN_HEADER = "Authorization";
+	public static final String TOKEN_HEADER = "Authorization";
 	public static final String TOKEN_HEADER_REFRESH = "Refresh-Token"; 
 	
 	public final static String URL_LOAD_IMAGE_FROM_IMAGE_TABLE = "http://localhost:8080/api/load-image/image/";

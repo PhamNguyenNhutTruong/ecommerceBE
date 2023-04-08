@@ -2,12 +2,7 @@ package project.ute.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import project.ute.dto.AccountDto;
 import project.ute.dto.MessageDto;
@@ -22,7 +17,7 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping("/login")
 	public ResponseEntity<?> login(HttpServletRequest request, @RequestBody AccountDto accountDto) {		
 		/*
 		 Object được đưa xuống có dạng: {"email":"20110756@student.hcmute.edu.vn","password" : "pnnt19062002", "role": 0/1, "isGoogleLogin": true/false}

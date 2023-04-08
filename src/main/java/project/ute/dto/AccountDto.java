@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.Transient;
 
 public class AccountDto implements UserDetails{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
 	private int role;
