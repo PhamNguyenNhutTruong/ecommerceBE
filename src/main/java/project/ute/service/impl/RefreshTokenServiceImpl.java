@@ -51,4 +51,23 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
 		}		
 		return new MessageDto("Refresh Token", "Refresh Token Failed - Refresh token expired - Please login again", ConstantUtils.ERROR, accountDto.getEmail(), null, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+
+	@Override
+	public MessageDto handleDeleteToken(HttpServletRequest request) {
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		String token = httpRequest.getHeader(ConstantUtils.TOKEN_HEADER);
+		try {
+			if(!jwtService.isTokenExpired(token)) {
+				if(jwtService.deleteToken(token)) {
+					System.out.println("============= Time: " + jwtService.getExpirationDateFromToken(token).toString());
+					return new MessageDto("Delete Token", "Delete toke successfull", ConstantUtils.SUCCESS, null, null,HttpStatus.OK);
+				}
+				return new MessageDto("Delete Token", "Delete toke failed", ConstantUtils.ERROR, null, null,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			return new MessageDto("Delete Token", "Token unexpired", ConstantUtils.WRANING, null, null,HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new MessageDto("Delete Token", e.getMessage(), ConstantUtils.ERROR, null, null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

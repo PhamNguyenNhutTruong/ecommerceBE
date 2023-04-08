@@ -78,13 +78,13 @@ public class LoginServiceImpl implements LoginService{
 					customerAccount.setGivenName("");
 					customerAccount.setIsGoogleLogin(true);
 					customerAccount.setPhonenumber("");
-					customerAccount.setPicture("");
+					customerAccount.setPicture(null);
 					customerAccount.setVerifiedEmail("");
 					
 					customerService.addNewCutomer(customerAccount);
 //					Cho pass qua đăng nhập
 					String token = jwtService.generateTokenLogin(accountDto.getEmail(), actionGen);
-					String refreshToken = jwtService.generateTokenLogin(customer.get().getEmail(), actionRef);
+					String refreshToken = jwtService.generateTokenLogin(accountDto.getEmail(), actionRef);
 					
 					TokenDto tokenDto = new TokenDto();
 					tokenDto.setAccessToken(token);
@@ -109,10 +109,10 @@ public class LoginServiceImpl implements LoginService{
 					tokenDto.setRefreshToken(refreshToken);
 					return new MessageDto("Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 				} else {
-					return new MessageDto("Login", "Incorrect password", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+					return new MessageDto("Login", "Incorrect password", ConstantUtils.ERROR, null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
-				return new MessageDto("Login", "Account does not exist", ConstantUtils.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new MessageDto("Login", "Account does not exist", ConstantUtils.ERROR, null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
 			return messageDto;

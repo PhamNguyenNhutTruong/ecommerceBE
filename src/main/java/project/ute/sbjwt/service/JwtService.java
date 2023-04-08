@@ -82,7 +82,7 @@ public class JwtService {
 	}
 
 	// Từ token lấy ra Date
-	private Date getExpirationDateFromToken(String token) {
+	public Date getExpirationDateFromToken(String token) {
 		token = stripBearerToken(token);
 		Date expiration = null;
 		JWTClaimsSet claims = getClaimsFromToken(token);
@@ -137,5 +137,21 @@ public class JwtService {
 	      return false;
 	    }
 	    return true;
+	}
+	
+	public Boolean deleteToken(String token) {
+//		JWTClaimsSet jwtClaimsSet = this.getClaimsFromToken(token);
+//		
+//		long expirationTimeMillis = 0;
+//		Date expiration = new Date(System.currentTimeMillis() + expirationTimeMillis);
+//		jwtClaimsSet = new JWTClaimsSet.Builder(jwtClaimsSet)
+//		    .expirationTime(expiration)
+//		    .build();
+		
+		long newExpirationTime = System.currentTimeMillis();
+		JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
+		builder.expirationTime(new Date(newExpirationTime));
+		JWTClaimsSet claims = builder.build();
+		return true;
 	}
 }

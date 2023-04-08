@@ -2,6 +2,7 @@ package project.ute.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,10 +14,13 @@ public class Slide implements Serializable {
 
 	@Id
 	private String id;
+	
+	@Column(unique = true)
+	private String name;
 
 	private String detail;
 
-	private String link;
+	private byte[] link;
 
 	public Slide() {
 	}
@@ -28,6 +32,15 @@ public class Slide implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getDetail() {
 		return this.detail;
@@ -37,11 +50,11 @@ public class Slide implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getLink() {
+	public byte[] getLink() {
 		return this.link;
 	}
 
-	public void setLink(String link) {
+	public void setLink(byte[] link) {
 		this.link = link;
 	}
 

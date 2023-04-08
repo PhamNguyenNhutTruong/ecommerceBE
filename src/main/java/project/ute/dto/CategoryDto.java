@@ -1,6 +1,6 @@
 package project.ute.dto;
 
-public class CategoryDto {
+public class CategoryDto{
 	private String id;
 	private String name;
 	

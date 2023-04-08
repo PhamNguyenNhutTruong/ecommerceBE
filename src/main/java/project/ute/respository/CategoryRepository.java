@@ -12,4 +12,7 @@ import project.ute.model.Category;
 public interface CategoryRepository extends JpaRepository<Category, String> {
 	@Query("SELECT c FROM Category c WHERE c.status = true")
 	public List<Category> getAllCategoryStillInBusiness();
+	
+	@Query("SELECT c FROM Category c WHERE c.id = ?1")
+	public Category getCategoryById(String id);
 }
