@@ -54,9 +54,9 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public MessageDto updateCustomerInformation(String customerId, MultipartFile avatar, String displayName, String address, String phonenumber) {
+	public MessageDto updateCustomerInformation(String email, MultipartFile avatar, String displayName, String address, String phonenumber) {
 		try {
-			Customer customer = this.getCustomerById(customerId);
+			Customer customer = this.getCustomerByEmail(email);
 			
 			if(customer != null) {
 				customer.setPicture(ImageUtils.compressImage(avatar.getBytes()));

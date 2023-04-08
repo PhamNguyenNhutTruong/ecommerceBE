@@ -33,10 +33,10 @@ public class CustomerController {
 
 	@RequestMapping(value = "/profile/update", method = RequestMethod.PUT, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<?> updateCustomerInformation(@RequestParam("customerId") String customerId, @RequestParam("avatar") MultipartFile avatar,
+	public ResponseEntity<?> updateCustomerInformation(@RequestParam("email") String email, @RequestParam("avatar") MultipartFile avatar,
 			@RequestParam("displayName") String displayName,
 			@RequestParam("address") String address, @RequestParam("phonenumber") String phonenumber) {
-		MessageDto messageDto = customerService.updateCustomerInformation(customerId, avatar, displayName, address, phonenumber);
+		MessageDto messageDto = customerService.updateCustomerInformation(email, avatar, displayName, address, phonenumber);
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 	

@@ -97,12 +97,13 @@ public class LoginServiceImpl implements LoginService{
 //		Kiểm tra nếu không phải đăng nhập bằng google
 		MessageDto messageDto = signUpService.checkContionSignUp(accountDto.getEmail(), accountDto.getPassword());
 		if(messageDto.getStatus() == ConstantUtils.SUCCESS) {
-			Optional<User> user = usersService.loadUserByEmail(accountDto.getEmail());
-			if(!user.isEmpty()) {
-				String passwordHash = user.get().getPassword();
+//			Optional<User> user = usersService.loadUserByEmail(accountDto.getEmail());
+			Optional<Customer> cuOptional = customerService.checkCustomerAccount(accountDto.getEmail());
+			if(!cuOptional.isEmpty()) {
+				String passwordHash = cuOptional.get().getPassword();
 				if(BcryptUtils.checkpwd(accountDto.getPassword(), passwordHash)) {
-					String token = jwtService.generateTokenLogin(user.get().getEmail(), actionGen);
-					String refreshToken = jwtService.generateTokenLogin(user.get().getEmail(), actionRef);
+					String token = jwtService.generateTokenLogin(cuOptional.get().getEmail(), actionGen);
+					String refreshToken = jwtService.generateTokenLogin(cuOptional.get().getEmail(), actionRef);
 					
 					TokenDto tokenDto = new TokenDto();
 					tokenDto.setAccessToken(token);
