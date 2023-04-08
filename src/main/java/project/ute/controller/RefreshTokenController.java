@@ -16,13 +16,16 @@ public class RefreshTokenController {
 	@Autowired
 	RefreshTokenService refreshTokenService;
 	
-	@PostMapping("/refresh-token")
-	public ResponseEntity<?> refreshToken(HttpServletRequest request,  @RequestBody AccountDto accountDto, @RequestHeader MultiValueMap<String, String> headers ) {		
-		System.out.println("Refresh token");
-		headers.forEach((key, value) -> {
-			System.out.println(key + " " + value);
-		});
+	@RequestMapping(value = "/refresh-token", method = RequestMethod.POST)
+	public ResponseEntity<?> refreshToken(HttpServletRequest request,  @RequestBody AccountDto accountDto) {		
 		MessageDto messageDto = refreshTokenService.handleRefreshToken(request, accountDto);
+		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
+	}
+	
+	
+	@RequestMapping(value = "/delete-token", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteToken(HttpServletRequest request,  @RequestBody AccountDto accountDto) {		
+		MessageDto messageDto = refreshTokenService.handleDeleteToken(request);
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 }

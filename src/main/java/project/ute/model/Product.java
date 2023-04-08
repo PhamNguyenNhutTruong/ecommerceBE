@@ -20,8 +20,9 @@ public class Product implements Serializable {
 	private String detail;
 
 	@Column(name="main_image")
-	private String mainImage;
+	private byte[] mainImage;
 	
+	 @Column(unique=true)
 	private String name;
 
 	private Long price;
@@ -81,11 +82,11 @@ public class Product implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getMainImage() {
+	public byte[] getMainImage() {
 		return this.mainImage;
 	}
 
-	public void setMainImage(String mainImage) {
+	public void setMainImage(byte[] mainImage) {
 		this.mainImage = mainImage;
 	}
 

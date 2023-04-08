@@ -8,4 +8,5 @@ import project.ute.model.Category;
 
 public interface CategoryService {
 	public List<CategoryDto> getAllCategoryStillInBusiness();
+	public Category getCategoryById(String id);
 }
