@@ -45,7 +45,7 @@ public class ImageController {
 	}
 	
 //	Dùng cho phía FE lấy được hình ảnh từ DB
-	@RequestMapping(value = "/image/download/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/load-image/image/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> downloadImage(@PathVariable("fileName") String fileName)  {
 		try {
 			byte[] image = imageService.downloadImage(fileName);

@@ -21,8 +21,8 @@ public class ConstantUtils {
 	public static final String TOKEN_HEADER = "Authorization";
 	public static final String TOKEN_HEADER_REFRESH = "Refresh-Token"; 
 	
-	public final static String URL_LOAD_IMAGE_FROM_IMAGE_TABLE = "http://localhost:8080/api/image/download/";
-	public final static String URL__LOAD_IMAGE_FROM_PRODUCT_TABLE = "http://localhost:8080/api/product/load-image/";
-	public final static String URL__LOAD_IMAGE_FROM_SLIDE_TABLE = "http://localhost:8080/api/slide/load-image/";
-	public final static String URL__LOAD_IMAGE_FROM_CUSTOMER_TABLE = "http://localhost:8080/api/profile/load-image/";
+	public final static String URL_LOAD_IMAGE_FROM_IMAGE_TABLE = "http://localhost:8080/api/load-image/image/";
+	public final static String URL__LOAD_IMAGE_FROM_PRODUCT_TABLE = "http://localhost:8080/api/load-image/product/";
+	public final static String URL__LOAD_IMAGE_FROM_SLIDE_TABLE = "http://localhost:8080/api/load-image/slide/";
+	public final static String URL__LOAD_IMAGE_FROM_CUSTOMER_TABLE = "http://localhost:8080/api/load-image/profile/";
 }
