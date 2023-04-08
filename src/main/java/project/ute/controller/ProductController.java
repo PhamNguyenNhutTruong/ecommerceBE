@@ -42,7 +42,7 @@ public class ProductController {
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 	
-	@RequestMapping(value = "/product/load-image/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/load-image/product/{fileName}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> downloadMainProductImage(@PathVariable("fileName") String fileName)  {
 		try {
 			byte[] image = productService.loadMainProductImage(fileName);

@@ -40,7 +40,7 @@ public class CustomerController {
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 	
-	@RequestMapping(value = "/profile/load-image/{email}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/load-image/profile/{email}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> downloadImage(@PathVariable("email") String email)  {
 		try {
 			byte[] image = customerService.loadAvatar(email);

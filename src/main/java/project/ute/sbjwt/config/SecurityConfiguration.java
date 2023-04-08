@@ -37,6 +37,7 @@ public class SecurityConfiguration   {
 		http.authorizeHttpRequests().requestMatchers("/api/login/**").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/sign-up-account/**").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/refresh-token/**").permitAll();
+		http.authorizeHttpRequests().requestMatchers("/api/load-image/**").permitAll();
 //		http.authorizeHttpRequests().requestMatchers("/api/product/add-new-product/**").permitAll();
 		
 		http.httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
