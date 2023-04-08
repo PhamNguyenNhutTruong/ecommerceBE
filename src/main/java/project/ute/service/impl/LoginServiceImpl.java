@@ -84,7 +84,7 @@ public class LoginServiceImpl implements LoginService{
 					customerService.addNewCutomer(customerAccount);
 //					Cho pass qua đăng nhập
 					String token = jwtService.generateTokenLogin(accountDto.getEmail(), actionGen);
-					String refreshToken = jwtService.generateTokenLogin(customer.get().getEmail(), actionRef);
+					String refreshToken = jwtService.generateTokenLogin(accountDto.getEmail(), actionRef);
 					
 					TokenDto tokenDto = new TokenDto();
 					tokenDto.setAccessToken(token);
