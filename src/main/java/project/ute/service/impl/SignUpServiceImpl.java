@@ -16,8 +16,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import project.ute.dto.MessageDto;
+import project.ute.model.Customer;
 import project.ute.model.User;
 import project.ute.respository.UserRepository;
+import project.ute.service.CustomerService;
 import project.ute.service.SignUpService;
 import project.ute.service.UsersService;
 import project.ute.util.BcryptUtils;
@@ -40,6 +42,9 @@ public class SignUpServiceImpl implements SignUpService{
 	
 	@Autowired
 	UsersService usersService;
+	
+	@Autowired
+	CustomerService customerService;
 	
 	@Override
 	public void sendEmail(String toEmail, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException{		
@@ -132,16 +137,20 @@ public class SignUpServiceImpl implements SignUpService{
 		try {
 			if(messageDto.getStatus() == ConstantUtils.SUCCESS) {
 //				Xác nhận mã OTP  thành công -> Tạo mới 1 user
-				User user = new User();
-//				Đã random được ID
-				user.setId(usersService.randomUserId());
-				user.setEmail(email);
-//				Đã mã hóa mật khẩu
-				user.setPassword(BcryptUtils.hashpwd(pass));
-				user.setName(email);
-				user.setRole(role);
+				Customer customerAccount = new Customer();
+				customerAccount.setId(customerService.randomCustomerId());
+				customerAccount.setEmail(email);
+				customerAccount.setPassword(BcryptUtils.hashpwd(pass));
+				customerAccount.setName(email);
+				customerAccount.setFamilyName("");
+				customerAccount.setGivenName("");
+				customerAccount.setIsGoogleLogin(true);
+				customerAccount.setPhonenumber("");
+				customerAccount.setPicture(null);
+				customerAccount.setVerifiedEmail("");
 				
-				usersService.addUsers(user);
+				customerService.addNewCutomer(customerAccount);
+				
 				return new MessageDto("Sign up account", "Sign up successful", ConstantUtils.SUCCESS, email, null, HttpStatus.OK);
 			} else {
 //				Xác nhận mã OTP thất bại -> Trả về thông báo bị lỗi
