@@ -16,7 +16,8 @@ public class Customer implements UserDetails {
 
 	@Id
 	private String id;
-
+	
+	@Column(unique=true)
 	private String email;
 
 	@Column(name="family_name")

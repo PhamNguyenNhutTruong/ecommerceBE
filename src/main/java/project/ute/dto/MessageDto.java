@@ -13,6 +13,9 @@ public class MessageDto {
 	private String email;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String customerId;
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private TokenDto token;
 	
 	private HttpStatus httpStatus;
@@ -43,6 +46,17 @@ public class MessageDto {
 	
 	public MessageDto(String title, String message, String status, String email, TokenDto token, HttpStatus httpStatus) {
 		super();
+		this.title = title;
+		this.message = message;
+		this.status = status;
+		this.email = email;
+		this.token = token;
+		this.httpStatus = httpStatus;
+	}
+	
+	public MessageDto(String customerId, String title, String message, String status, String email, TokenDto token, HttpStatus httpStatus) {
+		super();
+		this.customerId = customerId;
 		this.title = title;
 		this.message = message;
 		this.status = status;
@@ -84,6 +98,14 @@ public class MessageDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public TokenDto getToken() {

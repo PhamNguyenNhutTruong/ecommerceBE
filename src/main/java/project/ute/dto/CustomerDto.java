@@ -6,6 +6,7 @@ public class CustomerDto {
 	private String customerId;
 	private String avatar;
 	private String displayName;
+	private String email;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String givenName;
@@ -36,6 +37,15 @@ public class CustomerDto {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getGivenName() {
 		return givenName;
 	}
