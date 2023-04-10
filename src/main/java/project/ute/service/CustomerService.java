@@ -17,6 +17,6 @@ public interface CustomerService {
 	public Customer getCustomerById(String id);
 	public Customer getCustomerByEmail(String email);
 	public CustomerDto getCustomerInfomation(String id);
-	public MessageDto updateCustomerInformation(String email, MultipartFile avatar, String displayName, String address, String phonenumber);
-	public byte[] loadAvatar(String email);
+	public MessageDto updateCustomerInformation(String id, MultipartFile avatar, String displayName, String address, String phonenumber);
+	public byte[] loadAvatar(String id);
 }

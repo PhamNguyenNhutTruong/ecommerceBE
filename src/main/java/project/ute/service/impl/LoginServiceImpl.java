@@ -63,14 +63,15 @@ public class LoginServiceImpl implements LoginService{
 						TokenDto tokenDto = new TokenDto();
 						tokenDto.setAccessToken(token);
 						tokenDto.setRefreshToken(refreshToken);
-						return new MessageDto("Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
+						return new MessageDto(customer.get().getId(), "Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 					}
 				} 
 //				Nếu email đó chưa được đăng kí
 				else {
+					String customerId = customerService.randomCustomerId();
 //					Tạo ra tài khoản mới
 					Customer customerAccount = new Customer();
-					customerAccount.setId(customerService.randomCustomerId());
+					customerAccount.setId(customerId);
 					customerAccount.setEmail(accountDto.getEmail());
 					customerAccount.setPassword(BcryptUtils.hashpwd(accountDto.getPassword()));
 					customerAccount.setName(accountDto.getEmail());
@@ -89,7 +90,7 @@ public class LoginServiceImpl implements LoginService{
 					TokenDto tokenDto = new TokenDto();
 					tokenDto.setAccessToken(token);
 					tokenDto.setRefreshToken(refreshToken);
-					return new MessageDto("Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
+					return new MessageDto(customerId, "Google Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 				}
 			} 
 		} 
@@ -108,7 +109,7 @@ public class LoginServiceImpl implements LoginService{
 					TokenDto tokenDto = new TokenDto();
 					tokenDto.setAccessToken(token);
 					tokenDto.setRefreshToken(refreshToken);
-					return new MessageDto("Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
+					return new MessageDto(cuOptional.get().getId(), "Login", "Login successful", ConstantUtils.SUCCESS ,accountDto.getEmail(), tokenDto, HttpStatus.OK);
 				} else {
 					return new MessageDto("Login", "Incorrect password", ConstantUtils.ERROR, null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 				}

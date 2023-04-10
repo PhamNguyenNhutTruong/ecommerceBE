@@ -33,17 +33,17 @@ public class CustomerController {
 
 	@RequestMapping(value = "/profile/update", method = RequestMethod.PUT, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<?> updateCustomerInformation(@RequestParam("email") String email, @RequestParam("avatar") MultipartFile avatar,
+	public ResponseEntity<?> updateCustomerInformation(@RequestParam("id") String id, @RequestParam("avatar") MultipartFile avatar,
 			@RequestParam("displayName") String displayName,
 			@RequestParam("address") String address, @RequestParam("phonenumber") String phonenumber) {
-		MessageDto messageDto = customerService.updateCustomerInformation(email, avatar, displayName, address, phonenumber);
+		MessageDto messageDto = customerService.updateCustomerInformation(id, avatar, displayName, address, phonenumber);
 		return ResponseEntity.status(messageDto.getHttpStatus()).body(messageDto);
 	}
 	
-	@RequestMapping(value = "/load-image/profile/{email}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<?> downloadImage(@PathVariable("email") String email)  {
+	@RequestMapping(value = "/load-image/profile/{id}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<?> downloadImage(@PathVariable("id") String id)  {
 		try {
-			byte[] image = customerService.loadAvatar(email);
+			byte[] image = customerService.loadAvatar(id);
 			return ResponseEntity.status(HttpStatus.OK).body(image);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Load image failed");

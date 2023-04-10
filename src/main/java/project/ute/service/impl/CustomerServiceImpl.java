@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public MessageDto addNewCutomer(Customer customer) {
 		customerRepository.save(customer);
-		return new MessageDto("Add memeber", "Add new customer successfull", ConstantUtils.SUCCESS, null, null,HttpStatus.OK);
+		return new MessageDto(null, "Add memeber", "Add new customer successfull", ConstantUtils.SUCCESS, null, null,HttpStatus.OK);
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public MessageDto updateCustomerInformation(String email, MultipartFile avatar, String displayName, String address, String phonenumber) {
+	public MessageDto updateCustomerInformation(String id, MultipartFile avatar, String displayName, String address, String phonenumber) {
 		try {
-			Customer customer = this.getCustomerByEmail(email);
+			Customer customer = this.getCustomerById(id);
 			
 			if(customer != null) {
 				customer.setPicture(ImageUtils.compressImage(avatar.getBytes()));
@@ -70,9 +70,9 @@ public class CustomerServiceImpl implements CustomerService{
 				
 				return new MessageDto("Update customer infomation", "Update successful", ConstantUtils.SUCCESS , HttpStatus.OK, customerDto);
 			}
-			return new MessageDto("Update customer infomation", "Update failed", ConstantUtils.ERROR , null, null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new MessageDto(null, "Update customer infomation", "Update failed", ConstantUtils.ERROR , null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
-			return new MessageDto("Update customer infomation", e.getMessage(), ConstantUtils.ERROR , null, null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new MessageDto(null, "Update customer infomation", e.getMessage(), ConstantUtils.ERROR , null, null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -82,8 +82,8 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public byte[] loadAvatar(String email) {
-		Customer customer = this.getCustomerByEmail(email);
+	public byte[] loadAvatar(String id) {
+		Customer customer = this.getCustomerById(id);
 		return ImageUtils.decompressImage(customer.getPicture());
 	}
 }
