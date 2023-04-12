@@ -9,8 +9,8 @@ public class OrderMapper {
 		orderDto.setId(order.getId());
 		orderDto.setDate(order.getOrderAt());
 		orderDto.setTotal(order.getTotal());
-		orderDto.setAddress(null);
-		orderDto.setStatus(null);
+//		orderDto.setAddress(null);
+		orderDto.setStatus(order.getStepper().getName());
 		orderDto.setOrderBy(order.getCustomer().getId());
 		orderDto.setMethod(order.getPaymentMethod().getName());
 		

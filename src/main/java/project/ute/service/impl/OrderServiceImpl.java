@@ -28,4 +28,10 @@ public class OrderServiceImpl implements OrderService{
 		return orderDtos;
 	}
 
+	@Override
+	public void addNewOrder(Order order) {
+		orderRepository.save(order);
+		
+	}
+
 }
