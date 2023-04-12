@@ -1,10 +1,15 @@
 package project.ute.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class LineItemDto {
 	private String id;
 	private long amount;
 	private long quantity;
 	private String orderId;
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String productId;
 	private String productName;
 	
 	public LineItemDto() {
@@ -38,6 +43,15 @@ public class LineItemDto {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+	
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
 	public String getProductName() {
 		return productName;
 	}

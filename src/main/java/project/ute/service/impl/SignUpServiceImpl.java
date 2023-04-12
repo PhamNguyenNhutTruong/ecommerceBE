@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import project.ute.dto.MessageDto;
 import project.ute.model.Customer;
-import project.ute.model.User;
-import project.ute.respository.UserRepository;
 import project.ute.service.CustomerService;
 import project.ute.service.SignUpService;
 import project.ute.service.UsersService;

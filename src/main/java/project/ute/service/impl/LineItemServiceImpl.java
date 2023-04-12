@@ -28,4 +28,9 @@ public class LineItemServiceImpl implements LineItemService{
 		return lineItemDtos;
 	}
 
+	@Override
+	public void addNewLineItem(LineItem lineItem) {
+		lineItemRepository.save(lineItem);
+	}
+
 }
