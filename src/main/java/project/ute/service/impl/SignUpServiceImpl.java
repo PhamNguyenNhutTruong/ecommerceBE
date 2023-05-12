@@ -141,7 +141,7 @@ public class SignUpServiceImpl implements SignUpService{
 				customerAccount.setName(email);
 				customerAccount.setFamilyName("");
 				customerAccount.setGivenName("");
-				customerAccount.setIsGoogleLogin(true);
+				customerAccount.setIsGoogleLogin(false);
 				customerAccount.setPhonenumber("");
 				customerAccount.setPicture(null);
 				customerAccount.setVerifiedEmail("");
