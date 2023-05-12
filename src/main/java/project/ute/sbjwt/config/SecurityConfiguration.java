@@ -32,7 +32,7 @@ public class SecurityConfiguration   {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		// Disable crsf cho đường dẫn /rest/**
+		// Disable crsf cho đường dẫn /api/**
 		http.csrf().ignoringRequestMatchers("/api/**");
 		http.authorizeHttpRequests().requestMatchers("/api/login/**").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/sign-up-account/**").permitAll();
